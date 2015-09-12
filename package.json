@@ -1,0 +1,33 @@
+{
+  "name": "battletrip",
+  "version": "0.0.0",
+  "description": "life size battleship",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattohagan/battletrip.git"
+  },
+  "keywords": [
+    "personal",
+    "ohagan"
+  ],
+  "author": "mattohagan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mattohagan/battletrip/issues"
+  },
+  "homepage": "https://github.com/mattohagan/battletrip",
+  "dependencies": {
+    "logfmt": "^1.1.2",
+    "express": "^4.6.1",
+    "request": "^2.39.0",
+    "body-parser": "*",
+    "path": "^0.11.14",
+    "fs": "0.0.2",
+    "json": "^9.0.3",
+    "jade": "^1.9.2"
+  }
+}

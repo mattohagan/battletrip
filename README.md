@@ -4,9 +4,14 @@ game of battleships with uber @ mhacks6
 
 ## game plan
 ###apps
-- authorize user’s uber account
+- authorize user’s uber account (on phone or server?)
 - status checks
-- push notifications for when they hit or went by a ship
+- push notifications for when they hit or went by a ship 
+
+- polling of details every 4 seconds 
+- once trip ends get location and 
+- geo fences from backend or client doesn't matter but lets do server 
+- background running app - navigation app 
 
 ###server
 - keep track of battleship locations
