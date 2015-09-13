@@ -13,7 +13,20 @@ module.exports = function(app){
 			}
 		});
 	};
-	
+
+	// push notification that user missed
+	var pushMiss = function(){
+		console.log('PUSHING MISS');
+		app.Parse.Cloud.run('pushmiss',{
+			success: function(result){
+				console.log('CLOUD CODE RAN AHH');
+			},
+			error: function(error){
+
+			}
+		});
+	};
+
 	// not much purpose
 	app.get('/', function(req, res) {
 		res.send('hello');
@@ -112,6 +125,7 @@ module.exports = function(app){
 		var query = new app.Parse.Query(Bullseye);
 		query.find({
 		  success: function(results) {
+		  	console.log('success on bullseye');
 		  	// goes through results
 		    for (var i = 0; i < results.length; i++) {
 		    	var object = results[i];
@@ -173,6 +187,8 @@ module.exports = function(app){
 
 				miss.set('location',{latitude: lat, longitude: lon});
 				miss.save();
+
+				pushMiss();
 
 		    }
 
