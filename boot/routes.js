@@ -186,7 +186,7 @@ module.exports = function(app){
 
 	// push notification that user hit a ship
 	function pushHit(id){
-		app.Parse.Cloud.run('push-hit', {bullseyeId: id},{
+		app.Parse.Cloud.run('pushhit', {bullseyeId: id},{
 			success: function(result){
 				console.log('CLOUD CODE RAN AHH');
 			},
