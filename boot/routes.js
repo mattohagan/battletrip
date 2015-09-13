@@ -146,9 +146,11 @@ module.exports = function(app){
 				  }
 				});
 
+				pushHit(bullseyeId);
+
 				res.status(203);
 				res.end();
-				pushHit(bullseyeId);
+				
 
 		    	// push notification for hit
 		    } else {
@@ -186,6 +188,7 @@ module.exports = function(app){
 
 	// push notification that user hit a ship
 	function pushHit(id){
+		console.log('PUSHING HIT');
 		app.Parse.Cloud.run('pushhit', {bullseyeId: id},{
 			success: function(result){
 				console.log('CLOUD CODE RAN AHH');
