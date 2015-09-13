@@ -184,8 +184,9 @@ module.exports = function(app){
 		   		// Create the object.
 				var Miss = app.Parse.Object.extend("Misses");
 				var miss = new Miss();
+				var geo = app
 
-				miss.set('location',{latitude: lat, longitude: lon});
+				miss.set('location', new GeoPoint(lat, lon);
 				miss.save(null, {
 					success: function(){
 						console.log('saved a miss');
