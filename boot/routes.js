@@ -1,6 +1,19 @@
 
 module.exports = function(app){
 
+	// push notification that user hit a ship
+	var pushHit = function(id){
+		console.log('PUSHING HIT');
+		app.Parse.Cloud.run('pushhit', {bullseyeId: id},{
+			success: function(result){
+				console.log('CLOUD CODE RAN AHH');
+			},
+			error: function(error){
+
+			}
+		});
+	};
+	
 	// not much purpose
 	app.get('/', function(req, res) {
 		res.send('hello');
@@ -186,18 +199,7 @@ module.exports = function(app){
 	});
 
 
-	// push notification that user hit a ship
-	function pushHit(id){
-		console.log('PUSHING HIT');
-		app.Parse.Cloud.run('pushhit', {bullseyeId: id},{
-			success: function(result){
-				console.log('CLOUD CODE RAN AHH');
-			},
-			error: function(error){
-
-			}
-		});
-	} 
+	
 
 	// also includes driver_canceled and rider_canceled
 	var statuses = ['no_drivers_available','processing','accepted','arriving','in_progress','completed'];
