@@ -13,8 +13,8 @@ module.exports = function(app){
 			arr: []
 		};
 
-		var Bullseye = app.Parse.Object.extend("Bullseye");
-		var query = new app.Parse.Query(Bullseye);
+		var Misses = app.Parse.Object.extend("Misses");
+		var query = new app.Parse.Query(Misses);
 		query.find({
 		  success: function(results) {
 		  	// goes through results
@@ -42,13 +42,51 @@ module.exports = function(app){
 
 	});
 
+
+	// benji getting coordinates for miss map
+	app.get('/ships', function(req, res){
+
+		var coordinates = {
+			arr: []
+		};
+
+		var Bullseye = app.Parse.Object.extend("Bullseye");
+		var query = new app.Parse.Query(Bullseye);
+		query.find({
+		  success: function(results) {
+		  	// goes through results
+		    for (var i = 0; i < results.length; i++) {
+		      var object = results[i];
+		      var lat = object.get('location').latitude;
+		      var lon = object.get('location').longitude;
+		      var radius = object.get('radius');
+
+		      var coord = {
+		      	lat: lat, 
+		      	lon: lon,
+		      	radius: radius
+		      };
+
+		      coordinates['arr'].push(coord);
+		    }
+
+			res.jsonp(coordinates);
+			res.end();
+
+		  },
+		  error: function(error) {
+		    alert("Error: " + error.code + " " + error.message);
+		  }
+		});
+
+	});
+
 	// receiving final destination from user
 	app.get('/destination', function(req, res){
 
 		// hardcode these values
-		var lat = req.body.lat;
-		var lon = req.body.lon;
-		console.log('hello');
+		var userLat = 42.268092; 
+		var userLon = -83.750350;
 		var hit = null;
 
 		var Bullseye = app.Parse.Object.extend("Bullseye");
@@ -57,9 +95,9 @@ module.exports = function(app){
 		  success: function(results) {
 		  	// goes through results
 		    for (var i = 0; i < results.length; i++) {
+		    	var object = results[i];
 				var radius = object.get('radius');
 		    	if(radius > 0){
-			    	var object = results[i];
 					var lat = object.get('location').latitude;
 					var lon = object.get('location').longitude;
 
@@ -68,23 +106,29 @@ module.exports = function(app){
 						longitude: lon
 					};
 
-			    	if(app.geolib.isPointInCircle(coord, radius)){
-			    		hit = object.get('objectId');
+					var userCoord = {
+						latitude: userLat, 
+						longitude: userLon
+					};
+
+			    	if(app.geolib.isPointInCircle(userCoord, coord, radius)){
+			    		hit = object.id;
 			    		break;
 			    	}
 			    }
 		    }
 
+
 		    if(hit){
 		    	console.log('hit!');
 
-		    	var Bullseye = Parse.Object.extend("Bullseye");
-				var query = new Parse.Query(Bullseye);
+		    	var Bullseye = app.Parse.Object.extend("Bullseye");
+				var query = new app.Parse.Query(Bullseye);
 				query.get(hit, {
 				  success: function(bullseye) {
 				  	var radius = bullseye.get('radius');
 				    // The object was retrieved successfully.
-				    bullseye.set('radius', radius - 50);
+				    bullseye.set('radius', radius - 750);
 				    bullseye.save();
 				  },
 				  error: function(object, error) {
@@ -98,7 +142,7 @@ module.exports = function(app){
 		    	// push notification for hit
 		    } else {
 		   		// Create the object.
-				var Miss = Parse.Object.extend("Misses");
+				var Miss = app.Parse.Object.extend("Misses");
 				var miss = new Miss();
 
 				miss.set('location',{latitude: lat, longitude: lon});
