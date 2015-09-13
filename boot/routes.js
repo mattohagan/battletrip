@@ -224,9 +224,25 @@ module.exports = function(app){
 		var status = statuses.shift();
 		statuses.push(status);
 
+		var coords = [[42.295037, -83.779232]
+		[42.242799, -83.743317]
+		[42.316963, -83.717460]
+		[42.277402, -83.745796]
+		[42.310153, -83.700813]
+		[42.291029, -83.756422]
+		[42.253242, -83.725353]
+		[42.304567, -83.701234]
+		[42.223917, -83.706834]
+		[42.232834, -83.766694]
+		[42.252763, -83.745088]];
+
+		var rand = Math.random() * (10 - 0) + 10;
+		var use = coords[rand];
+
+
 		// hardcode these values
-		var userLat = 42.268092; 
-		var userLon = -83.750350;
+		var userLat = use[0];
+		var userLon = use[1];
 
 		// spoof data that we'll use
 		var response = {
