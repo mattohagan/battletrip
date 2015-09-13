@@ -116,7 +116,7 @@ module.exports = function(app){
 		console.log(req.body.lon);
 
 		// hardcode these values
-		var userLat = req.body.lat; 
+		var userLat = req.body.lat;
 		var userLon = req.body.lon;
 		var bullseyeId = null;
 		var deviceId = req.body.deviceId;
@@ -241,12 +241,8 @@ module.exports = function(app){
 
 		var rand = Math.floor(Math.random() * (10 - 1) + 1);
 		console.log(rand);
-		var use = coords[rand][0];
-
-
-		// hardcode these values
-		var userLat = use[0];
-		var userLon = use[1];
+		var userLat = coords[rand][0];
+		var userLon = coords[rand][1];
 
 		// spoof data that we'll use
 		var response = {
