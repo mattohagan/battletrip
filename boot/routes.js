@@ -241,7 +241,7 @@ module.exports = function(app){
 
 		var rand = Math.floor(Math.random() * (10 - 1) + 1);
 		console.log(rand);
-		var use = coords[0][rand];
+		var use = coords[rand][0];
 
 
 		// hardcode these values
