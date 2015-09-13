@@ -83,10 +83,13 @@ module.exports = function(app){
 
 	// receiving final destination from user
 	app.get('/destination', function(req, res){
+		console.log(req.body);
+		console.log(req.body.lat);
+		console.log(req.body.lon);
 
 		// hardcode these values
-		var userLat = 42.268092; 
-		var userLon = -83.750350;
+		var userLat = req.body.lat; 
+		var userLon = req.body.lon;
 		var hit = null;
 
 		var Bullseye = app.Parse.Object.extend("Bullseye");
