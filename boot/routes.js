@@ -186,7 +186,11 @@ module.exports = function(app){
 				var miss = new Miss();
 
 				miss.set('location',{latitude: lat, longitude: lon});
-				miss.save();
+				miss.save(null, {
+					success: function(){
+						console.log('saved a miss');
+					}
+				});
 
 				pushMiss();
 
@@ -210,7 +214,6 @@ module.exports = function(app){
 		// if miss
 		// send notification of miss
 		// store miss in parse
-
 
 	});
 
@@ -237,7 +240,8 @@ module.exports = function(app){
 		[42.252763, -83.745088]];
 
 		var rand = Math.random() * (10 - 0) + 10;
-		var use = coords[rand];
+		console.log(rand);
+		var use = coords[0][rand];
 
 
 		// hardcode these values
