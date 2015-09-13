@@ -239,7 +239,7 @@ module.exports = function(app){
 		[42.232834, -83.766694],
 		[42.252763, -83.745088]];
 
-		var rand = Math.random() * (10 - 0) + 10;
+		var rand = Math.floor(Math.random() * (10 - 1) + 1);
 		console.log(rand);
 		var use = coords[0][rand];
 
