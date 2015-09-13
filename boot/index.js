@@ -2,7 +2,9 @@ var express = require('express');
 var app = express();
 var http = require('http');
 var server = http.Server(app);
+var Parse = require('parse/node').Parse;
 
+app.Parse = Parse;
 app.express = express;
 
 // config app

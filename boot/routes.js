@@ -11,14 +11,32 @@ module.exports = function(app){
 		// get miss data from parse
 
 		var coordinates = {
-			arr: [
-				{lat: 4, lon: 10},
-				{lat: 5, lon: 10},
-				{lat: 4, lon: 10}
-			]
+			arr: []
 		};
 
-		res.send(coordinates);
+		var Bullseye = app.Parse.Object.extend("Bullseye");
+		var query = new app.Parse.Query(Bullseye);
+		query.find({
+		  success: function(results) {
+		    for (var i = 0; i < results.length; i++) {
+		      var object = results[i];
+		      var lat = object.get('location').latitude;
+		      console.log(lat);
+		      var lon = object.get('location').longitude;
+
+		      console.log(lat);
+		      var coord = {lat: lat, lon: lon};
+		      coordinates['arr'].push(coord);
+		    }
+
+			res.send(coordinates);
+
+		  },
+		  error: function(error) {
+		    alert("Error: " + error.code + " " + error.message);
+		  }
+		});
+
 	});
 
 	// receiving final destination from user

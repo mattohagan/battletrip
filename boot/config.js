@@ -11,6 +11,8 @@ module.exports = function(app){
 	  extended: true
 	}));
 
+	app.Parse.initialize('XQ6eGuBCxZfhiXmz3coOIefE0LTQ04aNaZON2dCC', '7LYjmosUUNFThozSngtzAOW2fPdscfguHEOGuz2J');
+
 
 
 
