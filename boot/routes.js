@@ -146,8 +146,8 @@ module.exports = function(app){
 				  }
 				});
 
-				res.({shipHit: bullseyeId});
 				res.status(203);
+				res.send({shipHit: bullseyeId});
 				res.end();
 				//pushHit(deviceId);
 
