@@ -8,7 +8,6 @@ module.exports = function(app){
 
 	// benji getting coordinates for miss map
 	app.get('/misses', function(req, res){
-		// get miss data from parse
 
 		var coordinates = {
 			arr: []
@@ -18,14 +17,17 @@ module.exports = function(app){
 		var query = new app.Parse.Query(Bullseye);
 		query.find({
 		  success: function(results) {
+		  	// goes through results
 		    for (var i = 0; i < results.length; i++) {
 		      var object = results[i];
 		      var lat = object.get('location').latitude;
-		      console.log(lat);
 		      var lon = object.get('location').longitude;
 
-		      console.log(lat);
-		      var coord = {lat: lat, lon: lon};
+		      var coord = {
+		      	lat: lat, 
+		      	lon: lon
+		      };
+
 		      coordinates['arr'].push(coord);
 		    }
 
@@ -46,8 +48,70 @@ module.exports = function(app){
 		var lat = req.body.lat;
 		var lon = req.body.lon;
 		console.log('hello');
+		var hit = null;
 
+		var Bullseye = app.Parse.Object.extend("Bullseye");
+		var query = new app.Parse.Query(Bullseye);
+		query.find({
+		  success: function(results) {
+		  	// goes through results
+		    for (var i = 0; i < results.length; i++) {
+				var radius = object.get('radius');
+		    	if(radius > 0){
+			    	var object = results[i];
+					var lat = object.get('location').latitude;
+					var lon = object.get('location').longitude;
 
+					var coord = {
+						latitude: lat, 
+						longitude: lon
+					};
+
+			    	if(app.geolib.isPointInCircle(coord, radius)){
+			    		hit = object.get('objectId');
+			    		break;
+			    	}
+			    }
+		    }
+
+		    if(hit){
+		    	console.log('hit!');
+
+		    	var Bullseye = Parse.Object.extend("Bullseye");
+				var query = new Parse.Query(Bullseye);
+				query.get(hit, {
+				  success: function(bullseye) {
+				  	var radius = bullseye.get('radius');
+				    // The object was retrieved successfully.
+				    bullseye.set('radius', radius - 50);
+				    bullseye.save();
+				  },
+				  error: function(object, error) {
+				    // The object was not retrieved successfully.
+				    // error is a Parse.Error with an error code and message.
+				    console.log(error);
+				    console.log('hit error');
+				  }
+				});
+
+		    	// push notification for hit
+		    } else {
+		   		// Create the object.
+				var Miss = Parse.Object.extend("Misses");
+				var miss = new Miss();
+
+				miss.set('location',{latitude: lat, longitude: lon});
+				miss.save();
+
+		    }
+
+		  },
+		  error: function(error) {
+		    alert("Error: " + error.code + " " + error.message);
+		  }
+		});
+
+		
 
 		// get parse data
 		// check with geo fencing here
