@@ -83,6 +83,7 @@ module.exports = function(app){
 
 	// receiving final destination from user
 	app.get('/destination', function(req, res){
+		console.log('HELLO DESTINATION');
 		console.log(req.body);
 		console.log(req.body.lat);
 		console.log(req.body.lon);
