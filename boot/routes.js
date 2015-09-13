@@ -187,6 +187,7 @@ module.exports = function(app){
 
 	});
 
+/*
 	// push notification that user hit a ship
 	function pushHit(id){
 		var text = "It's a hit! But the ship is still sailing!";
@@ -198,7 +199,7 @@ module.exports = function(app){
 
 			}
 		});
-	}
+	} */
 
 	// also includes driver_canceled and rider_canceled
 	var statuses = ['no_drivers_available','processing','accepted','arriving','in_progress','completed'];
