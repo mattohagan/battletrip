@@ -175,6 +175,30 @@ module.exports = function(app){
 
 	});
 
+	// also includes driver_canceled and rider_canceled
+	var statuses = ['no_drivers_available','processing','accepted','arriving','in_progress','completed'];
+
+	app.get('/uber-details', function(req, res){
+		var status = statuses.shift();
+		statuses.push(status);
+
+		// hardcode these values
+		var userLat = 42.268092; 
+		var userLon = -83.750350;
+
+		// spoof data that we'll use
+		var response = {
+			"location": {
+				"latitude": userLat,
+			    "longitude": userLon,
+			    "bearing": 33
+			},
+			"status": status
+		}
+
+		return response;
+	});
+
 	// render robots.txt
 	app.get('/robots.txt', function(req, res) {
 	  res.type('text/plain');

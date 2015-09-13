@@ -9,7 +9,7 @@ game of battleships with uber @ mhacks6
 - push notifications for when they hit or went by a ship 
 
 - polling of details every 4 seconds 
-- once trip ends get location and 
+- once trip ends get location and send to heroku server 
 - geo fences from backend or client doesn't matter but lets do server 
 - background running app - navigation app 
 
