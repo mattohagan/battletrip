@@ -186,7 +186,7 @@ module.exports = function(app){
 				var miss = new Miss();
 				var geo = app
 
-				miss.set('location', new GeoPoint(lat, lon);
+				miss.set('location', new GeoPoint(lat, lon));
 				miss.save(null, {
 					success: function(){
 						console.log('saved a miss');
