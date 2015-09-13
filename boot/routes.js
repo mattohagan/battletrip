@@ -146,10 +146,8 @@ module.exports = function(app){
 				  }
 				});
 
-				res.status(203);
-				res.send({shipHit: bullseyeId});
 				res.end();
-				//pushHit(deviceId);
+				pushHit(bullseyeId);
 
 		    	// push notification for hit
 		    } else {
@@ -187,11 +185,10 @@ module.exports = function(app){
 
 	});
 
-/*
+
 	// push notification that user hit a ship
 	function pushHit(id){
-		var text = "It's a hit! But the ship is still sailing!";
-		app.Parse.Cloud.run('push-hit', {deviceId: id, pushText: text}, function(){
+		app.Parse.Cloud.run('push-hit', {bullseyeId: id}, function(){
 			success: function(result){
 				console.log('CLOUD CODE RAN AHH');
 			},
@@ -199,7 +196,7 @@ module.exports = function(app){
 
 			}
 		});
-	} */
+	} 
 
 	// also includes driver_canceled and rider_canceled
 	var statuses = ['no_drivers_available','processing','accepted','arriving','in_progress','completed'];
