@@ -83,6 +83,7 @@ module.exports = function(app){
 
 	// receiving final destination from user
 	app.post('/destination', function(req, res){
+		console.log(req.params);
 		console.log('HELLO DESTINATION');
 		console.log(req.body);
 		console.log(req.body.lat);
@@ -91,7 +92,8 @@ module.exports = function(app){
 		// hardcode these values
 		var userLat = req.body.lat; 
 		var userLon = req.body.lon;
-		var hit = null;
+		var bullseyeId = null;
+		var deviceId = req.body.deviceId;
 
 		var Bullseye = app.Parse.Object.extend("Bullseye");
 		var query = new app.Parse.Query(Bullseye);
@@ -115,20 +117,21 @@ module.exports = function(app){
 						longitude: userLon
 					};
 
+					// if it's a hit
 			    	if(app.geolib.isPointInCircle(userCoord, coord, radius)){
-			    		hit = object.id;
+			    		bullseyeId = object.id;
 			    		break;
 			    	}
 			    }
 		    }
 
 
-		    if(hit){
+		    if(bullseyeId){
 		    	console.log('hit!');
 
 		    	var Bullseye = app.Parse.Object.extend("Bullseye");
 				var query = new app.Parse.Query(Bullseye);
-				query.get(hit, {
+				query.get(bullseyeId, {
 				  success: function(bullseye) {
 				  	var radius = bullseye.get('radius');
 				    // The object was retrieved successfully.
@@ -142,6 +145,10 @@ module.exports = function(app){
 				    console.log('hit error');
 				  }
 				});
+
+				res.status(203);
+				res.end();
+				//pushHit(deviceId);
 
 		    	// push notification for hit
 		    } else {
@@ -178,6 +185,19 @@ module.exports = function(app){
 
 
 	});
+
+	// push notification that user hit a ship
+	function pushHit(id){
+		var text = "It's a hit! But the ship is still sailing!";
+		app.Parse.Cloud.run('push-hit', {deviceId: id, pushText: text}, function(){
+			success: function(result){
+				console.log('CLOUD CODE RAN AHH');
+			},
+			error: function(error){
+
+			}
+		});
+	}
 
 	// also includes driver_canceled and rider_canceled
 	var statuses = ['no_drivers_available','processing','accepted','arriving','in_progress','completed'];
