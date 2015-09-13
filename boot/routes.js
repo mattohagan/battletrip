@@ -196,7 +196,8 @@ module.exports = function(app){
 			"status": status
 		}
 
-		return response;
+		res.json(response);
+		res.end();
 	});
 
 	// render robots.txt
