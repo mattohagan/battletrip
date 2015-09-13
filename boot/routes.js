@@ -31,7 +31,7 @@ module.exports = function(app){
 		      coordinates['arr'].push(coord);
 		    }
 
-			res.json(coordinates);
+			res.jsonp(coordinates);
 			res.end();
 
 		  },
